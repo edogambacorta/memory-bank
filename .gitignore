@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Miscellaneous
+*.log
+.DS_Store
+
+# Project-specific
+pdf_processing/processed/
