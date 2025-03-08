@@ -1,6 +1,34 @@
 # Technical Context: AI-Powered PDF Processing System for Healthcare
 
-## MVP Phase Technologies
+## Initial MVP Phase (Deepseek RAG App) Technologies
+
+### AWS Services
+- EC2: G6.xlarge instance for hosting the entire application stack
+- Region: Zurich (eu-central-1) for compliance with data locality requirements
+
+### Application Stack
+- Operating System: Ubuntu 22.04 LTS
+- Web Server: Nginx (for reverse proxy and HTTPS)
+- Application Framework: Streamlit (for user interface)
+- Programming Language: Python
+
+### LLM Technologies
+- Ollama: For model management and inference
+- DeepSeek R1/8B: Initial model for PDF processing and question answering
+
+### PDF Processing
+- Library: To be determined (e.g., PyPDF2, pdf2image, or PyMuPDF)
+
+### Development Setup
+- Version Control: Git
+- IDE: Visual Studio Code with Remote - SSH extension
+- Deployment: Manual setup on EC2 instance
+
+### Security Measures
+- HTTPS: SSL/TLS certificate for secure communication
+- IAM roles: For EC2 instance permissions
+
+## Extended MVP Phase Technologies
 
 ### Local Application
 - Programming Language: To be determined (e.g., Python, Java, or C#)
@@ -23,7 +51,7 @@
 ## Scaled Solution Phase Technologies
 
 ### AWS Services
-- EC2: For hosting Ollama and LLM models
+- EC2: For hosting Ollama and LLM models (multiple instances for scalability)
 - S3: For storing input PDFs and processed results
 - Lambda: For workflow orchestration and triggering processing tasks
 - SQS: For managing processing jobs and ensuring scalability
@@ -44,7 +72,13 @@
 
 ## Technical Constraints
 
-### MVP Phase
+### Initial MVP Phase
+- EC2 Instance Type: G6.xlarge (GPU-enabled) for efficient LLM processing
+- PDF Size: Must efficiently process 80-page PDF documents
+- User Load: Designed for single-user performance initially
+- Data Locality: All processing must occur within the Zurich AWS region
+
+### Extended MVP Phase
 - Standard PC hardware: System must run efficiently on typical hospital workstations
 - Offline capability: Application should function without constant internet connectivity
 - Data protection: Must comply with Swiss data protection laws, including FADP
@@ -56,7 +90,12 @@
 
 ## Performance Considerations
 
-### MVP Phase
+### Initial MVP Phase
+- Optimize Ollama and DeepSeek R1/8B model for GPU acceleration on G6.xlarge instance
+- Implement efficient PDF parsing and text extraction methods
+- Design Streamlit interface for quick and intuitive interactions
+
+### Extended MVP Phase
 - Optimize local LLM for speed and efficiency on standard hardware
 - Implement efficient PDF parsing and text extraction methods
 - Design user interface for quick and intuitive interactions
@@ -68,7 +107,12 @@
 
 ## Security Measures
 
-### MVP Phase
+### Initial MVP Phase
+- SSL/TLS encryption: Secure HTTPS communication
+- IAM roles: Least privilege access for EC2 instance
+- Regular security updates: Keep the EC2 instance and all software up-to-date
+
+### Extended MVP Phase
 - Local data encryption: Protect stored PDFs and processed results
 - Secure user authentication: Ensure only authorized personnel can access the system
 - Regular security updates: Keep the application and its dependencies up-to-date
@@ -80,7 +124,12 @@
 
 ## Monitoring and Logging
 
-### MVP Phase
+### Initial MVP Phase
+- EC2 instance monitoring: Track CPU, GPU, memory, and storage usage
+- Application logging: Implement comprehensive logging in Streamlit app and Ollama
+- Performance monitoring: Track PDF processing times and API response times
+
+### Extended MVP Phase
 - Local logging: Implement comprehensive logging for troubleshooting and auditing
 - Performance monitoring: Track processing times and system resource usage
 
@@ -89,6 +138,4 @@
 - CloudWatch Dashboards: For real-time system overview
 - Custom metrics: For tracking PDF processing times and success rates
 
-This technical context provides an overview of the technologies, services, and considerations that form the foundation of our AI-Powered PDF Processing System for Healthcare, starting with the MVP and evolving into a scaled AWS-based solution. It will be updated as the project progresses and new technical decisions are made.
-
-[Note: Specific technology choices for the MVP phase will be finalized once more details about the required features are provided.]
+This technical context provides an overview of the technologies, services, and considerations that form the foundation of our AI-Powered PDF Processing System for Healthcare, starting with the initial Deepseek RAG App MVP, progressing through an extended MVP for hospital secretaries, and evolving into a scaled AWS-based solution. It will be updated as the project progresses and new technical decisions are made.

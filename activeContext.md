@@ -1,56 +1,66 @@
 # Active Context: AI-Powered PDF Processing System for Healthcare
 
 ## Current Focus
-Our current focus is on developing an MVP for a hospital secretary to efficiently process patient-related PDF documents, with a plan to scale to an AWS-based solution in the future.
+Our current focus is on implementing the initial MVP (Deepseek RAG App) to process 80-page PDF documents using a locally hosted LLM chatbot on AWS Zurich servers. This serves as the foundation for our broader project goals in healthcare document processing.
 
 ## Recent Changes
-- Project scope redefined to start with an MVP for healthcare
-- Initial focus on local deployment for a single user (hospital secretary)
-- Emphasis on compliance with Swiss data protection laws, including FADP
+- Project scope refined to start with the Deepseek RAG App as the initial MVP
+- Shift to AWS-based deployment for the initial MVP using G6.xlarge EC2 instance
+- Implementation of Ollama with DeepSeek R1/8B model for the initial MVP
+- Creation of initialMVP.md to document the Deepseek RAG App implementation plan
 
 ## Next Steps
-1. Define specific MVP features for hospital secretary use case
-   - Identify key document types and processing requirements
-   - Outline user interface and workflow for the MVP
+1. Set up AWS EC2 instance (G6.xlarge) in Zurich region
+   - Launch and configure the instance according to the initialMVP.md specifications
 
-2. Implement PDF parsing and text extraction for the MVP
-   - Research and select appropriate PDF parsing libraries for local deployment
-   - Develop functions for efficient text extraction from patient-related PDFs
+2. Implement Nginx reverse proxy and secure with HTTPS
+   - Set up Nginx for routing traffic to Streamlit app and Ollama API
+   - Obtain and configure SSL certificate for secure communication
 
-3. Select and integrate a suitable LLM for the MVP
-   - Evaluate LLMs that can run efficiently on a standard PC
-   - Implement the chosen LLM for document analysis and information extraction
+3. Set up the Deepseek-RAG-App repository
+   - Clone the repository and install necessary dependencies
+   - Configure the Python environment and required libraries
 
-4. Develop initial processing pipeline for the MVP
-   - Create workflow for PDF upload, processing, and result storage on a local system
-   - Implement basic error handling and logging
-   - Ensure compliance with Swiss data protection laws in all processes
+4. Install and configure Ollama with DeepSeek R1/8B model
+   - Set up Ollama and download the specified model
+   - Ensure proper integration with the Streamlit application
 
-5. Plan for future AWS integration and scaling
-   - Outline the transition from local MVP to AWS-based solution
-   - Identify key AWS services for future implementation (e.g., EC2, S3, Lambda)
+5. Develop and test the Streamlit application
+   - Implement the user interface for PDF upload and question answering
+   - Ensure smooth interaction between the UI, Ollama, and the LLM
+
+6. Optimize and test the system
+   - Ensure efficient processing of 80-page PDF documents
+   - Conduct thorough testing of the chatbot's question-answering capabilities
+
+7. Plan for future phases
+   - Outline the transition from the initial MVP to the extended MVP for hospital secretaries
+   - Identify key steps for scaling to a comprehensive AWS-based solution
 
 ## Active Decisions
-1. Starting with a locally hosted MVP for a hospital secretary
-   - Rationale: Allows for faster development and testing in a specific use case
-   - Impact: Provides immediate value to healthcare sector while laying groundwork for future scaling
+1. Implementing the Deepseek RAG App as the initial MVP
+   - Rationale: Provides a solid foundation for PDF processing and LLM integration
+   - Impact: Accelerates development and allows for early testing of core functionalities
 
-2. Focusing on compliance with Swiss data protection laws
-   - Rationale: Ensures the system meets stringent healthcare data security requirements
-   - Impact: Builds trust and reliability, setting a strong foundation for expansion
+2. Utilizing AWS EC2 (G6.xlarge) for the initial MVP
+   - Rationale: Offers necessary GPU capabilities for efficient LLM processing
+   - Impact: Ensures performance for handling 80-page PDF documents
 
-3. Planning for future AWS integration and use of advanced LLMs
-   - Rationale: Prepares for scalability and performance improvements
-   - Impact: Enables smooth transition from MVP to a comprehensive, multi-industry solution
+3. Using Ollama with DeepSeek R1/8B model
+   - Rationale: Provides a powerful, open-source LLM solution
+   - Impact: Enables advanced document analysis and question-answering capabilities
+
+4. Implementing Streamlit for the user interface
+   - Rationale: Allows for rapid development of a user-friendly interface
+   - Impact: Facilitates easy interaction with the PDF processing and chatbot features
 
 ## Ongoing Considerations
-- Balancing MVP functionality with the need for a quickly deployable solution
-- Ensuring the local system's performance meets the hospital secretary's needs
-- Planning the transition from local deployment to AWS infrastructure
-- Evaluating potential LLMs for both MVP and future scaled solution (including DeepSeek R1/8B and Mistral-OCR)
-- Monitoring regulatory changes in Swiss data protection laws
-- Gathering user feedback from the MVP to inform future development
+- Ensuring the initial MVP meets performance requirements for processing 80-page PDFs
+- Planning the transition from the Deepseek RAG App to a more specialized solution for hospital secretaries
+- Evaluating the scalability of the current architecture for future expansion
+- Considering future integration of Swiss data protection laws for the extended MVP
+- Gathering user feedback from the initial MVP to inform the development of subsequent phases
+- Monitoring AWS resource usage and optimizing for cost-effectiveness
+- Keeping abreast of developments in LLM technology, particularly the progress of Mistral-OCR
 
-This active context will be regularly updated as we progress through the development of our MVP and plan for the scaled, AWS-based PDF Processing System.
-
-[Note: Specific MVP features to be added once provided.]
+This active context will be regularly updated as we progress through the implementation of our initial MVP (Deepseek RAG App) and plan for subsequent phases of our AI-Powered PDF Processing System for Healthcare.

@@ -1,35 +1,68 @@
 # System Patterns: AI-Powered PDF Processing System for Healthcare
 
 ## Architecture Overview
-Our system starts with a locally hosted MVP for a hospital secretary and evolves into a scalable AWS-based solution for handling large document volumes across multiple industries.
+Our system evolves through three phases: an initial MVP (Deepseek RAG App) hosted on AWS, an extended MVP for hospital secretaries with local deployment, and a scalable AWS-based solution for handling large document volumes across multiple industries.
 
 ```mermaid
 graph TD
-    subgraph "MVP (Local Deployment)"
-    A[Hospital Secretary] -->|Upload PDF| B[Local Storage]
-    B --> C[Local Processing Application]
-    C -->|Process PDF| D[Local LLM]
-    D --> E[Result Processing]
-    E -->|Store Results| F[Local Storage]
-    E -->|Display| G[User Interface]
+    subgraph "Initial MVP (Deepseek RAG App)"
+    A[User] -->|Upload PDF| B[EC2 Instance]
+    B --> C[Nginx Reverse Proxy]
+    C --> D[Streamlit App]
+    D -->|Process PDF| E[Ollama]
+    E -->|LLM Processing| F[DeepSeek R1/8B Model]
+    F --> G[Result Processing]
+    G -->|Display| H[User Interface]
+    end
+
+    subgraph "Extended MVP (Local Deployment)"
+    I[Hospital Secretary] -->|Upload PDF| J[Local Storage]
+    J --> K[Local Processing Application]
+    K -->|Process PDF| L[Local LLM]
+    L --> M[Result Processing]
+    M -->|Store Results| N[Local Storage]
+    M -->|Display| O[User Interface]
     end
 
     subgraph "Scaled Solution (AWS)"
-    H[Client] -->|Upload PDF| I[S3 Bucket]
-    I --> J{Lambda Trigger}
-    J -->|Initiate Processing| K[SQS Queue]
-    K --> L[EC2 with Ollama]
-    L -->|Process PDF| M[DeepSeek R1/8B Model]
-    M --> N[Result Processing]
-    N -->|Store Results| O[S3 Bucket]
-    N -->|Notify| P[SNS Topic]
-    P --> Q[Client Notification]
+    P[Client] -->|Upload PDF| Q[S3 Bucket]
+    Q --> R{Lambda Trigger}
+    R -->|Initiate Processing| S[SQS Queue]
+    S --> T[EC2 with Ollama]
+    T -->|Process PDF| U[DeepSeek R1/8B Model]
+    U --> V[Result Processing]
+    V -->|Store Results| W[S3 Bucket]
+    V -->|Notify| X[SNS Topic]
+    X --> Y[Client Notification]
     end
 ```
 
 ## Key Components
 
-### MVP Phase
+### Initial MVP Phase (Deepseek RAG App)
+
+1. EC2 Instance (G6.xlarge)
+   - Purpose: Host the entire application stack
+   - Configuration: GPU-enabled for efficient LLM processing
+   - OS: Ubuntu 22.04 LTS
+
+2. Nginx Reverse Proxy
+   - Purpose: Route traffic and provide HTTPS security
+   - Configuration: Proxy requests to Streamlit app and Ollama API
+
+3. Streamlit Application
+   - Purpose: Provide user interface for PDF upload and interaction
+   - Implementation: Python-based web application
+
+4. Ollama
+   - Purpose: Manage and run the LLM model
+   - Integration: Tightly coupled with the Streamlit application
+
+5. DeepSeek R1/8B Model
+   - Purpose: Perform document analysis and question answering
+   - Configuration: Optimized for running on GPU-enabled EC2 instance
+
+### Extended MVP Phase
 
 1. Local Processing Application
    - Purpose: Handle PDF upload, processing, and result display
@@ -75,7 +108,25 @@ graph TD
 
 ## Data Flow
 
-### MVP Phase
+### Initial MVP Phase (Deepseek RAG App)
+
+1. PDF Upload
+   - User uploads 80-page PDF through the Streamlit web interface
+   - PDF is temporarily stored on the EC2 instance
+
+2. PDF Processing
+   - Streamlit app triggers the processing pipeline
+   - PDF text is extracted and sent to Ollama for LLM processing
+
+3. Question Answering
+   - User asks questions about the PDF content
+   - Queries are sent to the DeepSeek R1/8B model via Ollama
+   - Model generates responses based on the PDF content
+
+4. Result Display
+   - Answers are displayed in the Streamlit interface for the user to review
+
+### Extended MVP Phase
 
 1. PDF Upload
    - Hospital secretary uploads PDF through the local application interface
@@ -116,24 +167,24 @@ graph TD
    - Notification includes link to results in S3
 
 ## Scalability Considerations
-- Design MVP with modularity to facilitate future AWS integration
-- Plan for data migration from local storage to S3 during scaling phase
-- Utilize EC2 Auto Scaling groups in AWS phase to dynamically adjust processing capacity
-- Implement SQS in AWS phase to decouple PDF upload from processing, allowing for smooth handling of traffic spikes
+- Design initial MVP for single-user performance, focusing on efficient processing of 80-page PDFs
+- Plan for transition from EC2-hosted MVP to local deployment for extended MVP
+- Utilize EC2 Auto Scaling groups in scaled solution phase to dynamically adjust processing capacity
+- Implement SQS in scaled solution phase to decouple PDF upload from processing, allowing for smooth handling of traffic spikes
 
 ## Security Patterns
-- Implement strong local security measures in MVP phase, including data encryption and access controls
-- In AWS phase, implement VPC for network isolation of EC2 instances
+- Implement HTTPS using SSL/TLS certificates for the initial MVP
 - Use IAM roles for secure, key-less authentication between AWS services
-- Enable encryption in transit (HTTPS) and at rest (S3 encryption) for all data in AWS phase
-- Ensure compliance with Swiss data protection laws (including FADP) in both phases
+- Implement strong local security measures in extended MVP phase, including data encryption and access controls
+- In scaled solution phase, implement VPC for network isolation of EC2 instances
+- Enable encryption in transit (HTTPS) and at rest (S3 encryption) for all data in AWS phases
+- Ensure compliance with Swiss data protection laws (including FADP) in all phases, with particular focus on the extended MVP for healthcare use
 
 ## Monitoring and Logging Patterns
-- Implement local logging and performance monitoring in MVP phase
-- In AWS phase, centralize logs using CloudWatch Logs
-- Set up CloudWatch Dashboards for real-time system overview in AWS phase
-- Implement custom metrics for tracking PDF processing times and success rates in both phases
+- Implement basic logging and performance monitoring for the initial MVP using EC2 instance logs
+- Develop more comprehensive local logging for the extended MVP phase
+- In scaled solution phase, centralize logs using CloudWatch Logs
+- Set up CloudWatch Dashboards for real-time system overview in AWS phases
+- Implement custom metrics for tracking PDF processing times and success rates in all phases
 
-This system architecture and these patterns provide a scalable, secure, and efficient foundation for our AI-Powered PDF Processing System, starting with a focused MVP for healthcare and evolving into a comprehensive AWS-based solution for multiple industries.
-
-[Note: Specific MVP features and implementation details to be added once provided.]
+This system architecture and these patterns provide a scalable, secure, and efficient foundation for our AI-Powered PDF Processing System, starting with a focused AWS-hosted MVP, progressing through a locally deployed solution for healthcare, and evolving into a comprehensive AWS-based solution for multiple industries.
